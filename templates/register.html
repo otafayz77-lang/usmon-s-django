@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="w-full max-w-xs mx-auto mt-10">
+  <form
+    method="POST"
+    action="{% url 'register' %}"
+    class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+  >
+    {% csrf_token %}
+
+    <input
+      name="username"
+      type="text"
+      placeholder="email"
+      class="border w-full p-2 mb-3"
+    />
+
+    <input
+      name="email"
+      type="name"
+      placeholder="username"
+      class="border w-full p-2 mb-3"
+    />
+
+    <input
+      name="password"
+      type="password"
+      placeholder="Password"
+      class="border w-full p-2 mb-3"
+    />
+
+    <button
+      type="submit"
+      class="bg-blue-500 text-white px-4 py-2 rounded w-full"
+    >
+      Sign In
+    </button>
+  </form>
+</div>
+
+{% endblock %}
