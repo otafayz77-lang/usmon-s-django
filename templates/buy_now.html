@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="min-h-screen bg-gray-100 py-8 px-4">
+  <div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg p-8 shadow">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">💳 Sotib olish</h1>
+
+      {% if error %}
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Joylashuv -->
+        <div>
+          <label for="location" class="block text-sm font-semibold text-gray-900 mb-2">
+            📍 Joylashuv
+          </label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="Shahar, Ko'cha, Uy raqami"
+            required
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          />
+          <p class="text-xs text-gray-600 mt-1">Mahsulot yetkaztiriladi joylashuv</p>
+        </div>
+
+        <!-- To'lov usuli -->
+        <div>
+          <label for="payment" class="block text-sm font-semibold text-gray-900 mb-2">
+            💰 To'lov usuli
+          </label>
+          <select
+            id="payment"
+            name="payment"
+            required
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          >
+            <option value="">Tanla...</option>
+            <option value="Naqd pul">💵 Naqd pul</option>
+            <option value="Card">🏧 Card</option>
+            <option value="Bank transfer">🏦 Bank transferi</option>
+            <option value="Online">💻 Online</option>
+          </select>
+          <p class="text-xs text-gray-600 mt-1">To'lovni qaysi usul bilan qilmoqchisiz</p>
+        </div>
+
+        <!-- Savat ma'lumoti -->
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <h3 class="font-semibold text-gray-900 mb-3">📦 Savat ma'lumoti</h3>
+          <p class="text-sm text-gray-600">
+            Sizning savatdagi barcha mahsulotlar sotib olinadi va joylashuvga yetkaztiriladi.
+          </p>
+        </div>
+
+        <!-- Tugmalar -->
+        <div class="flex gap-3">
+          <button
+            type="submit"
+            class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition font-semibold"
+          >
+            ✅ Sotib olishni tasdiqlash
+          </button>
+          <a
+            href="{% url 'basket' %}"
+            class="flex-1 bg-gray-200 text-gray-900 py-3 rounded-lg hover:bg-gray-300 transition font-semibold text-center"
+          >
+            ← Savat
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

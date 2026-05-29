@@ -2,35 +2,35 @@
 <div class="min-h-screen bg-white py-10 px-4">
   <div class="max-w-7xl mx-auto">
     <div
-      class="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+      class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl shadow-2xl p-8 text-white"
     >
-      <div
-        class="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center text-white text-5xl font-bold shadow-xl"
-      >
-        {{ request.user.username|default:request.user.email|slice:":1"|upper }}
-      </div>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div class="flex items-center gap-6">
+          <div
+            class="w-24 h-24 rounded-full bg-white flex items-center justify-center text-blue-600 text-5xl font-bold shadow-xl"
+          >
+            {{ request.user.email|slice:":1"|upper }}
+          </div>
 
-      <div>
-        <h1 class="text-4xl font-bold text-gray-900">
-          {{ request.user.name }}
-        </h1>
+          <div>
+            <h1 class="text-3xl font-bold">
+              {{ request.user.email }}
+            </h1>
+            <p class="text-blue-100 text-lg mt-2">Foydalanuvchi profili</p>
+          </div>
+        </div>
 
-        <p class="text-gray-500 text-lg mt-1">{{ request.user.email }}</p>
+        <a href="{% url 'add_product' %}" class="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-2xl font-semibold shadow-lg transition text-center">
+          + Yangi mahsulot
+        </a>
       </div>
-      <form method="POST" action="{% url 'add_product' %}">
-        {% csrf_token %}
-        <button
-          class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg transition"
-        >
-          + Yangi
-        </button>
-      </form>
     </div>
 
     <div class="mt-12 space-y-10">
       <div>
         <h2 class="text-3xl font-bold text-gray-900 mb-5">Mening mahsulotim</h2>
 
+        {% if user_products %}
         <div
           class="overflow-hidden rounded-2xl border border-gray-200 shadow-xl"
         >
@@ -38,41 +38,39 @@
             <thead class="bg-slate-900 text-white">
               <tr>
                 <th class="px-6 py-4 font-semibold">Mahsulot nomi</th>
-                <th class="px-6 py-4 font-semibold">Rang</th>
                 <th class="px-6 py-4 font-semibold">Kategoriya</th>
                 <th class="px-6 py-4 font-semibold">Narx</th>
-                <th class="px-6 py-4 font-semibold">Soni</th>
+                <th class="px-6 py-4 font-semibold">Holati</th>
+                <th class="px-6 py-4 font-semibold">Sana</th>
               </tr>
             </thead>
 
             <tbody class="bg-slate-950 text-white">
+              {% for product in user_products %}
               <tr
                 class="border-t border-slate-800 hover:bg-slate-900 transition"
               >
-                <td class="px-6 py-5 font-semibold">Apple MacBook Pro 17"</td>
-                <td class="px-6 py-5 text-gray-300">Silver</td>
-                <td class="px-6 py-5 text-gray-300">Laptop</td>
-                <td class="px-6 py-5">$2999</td>
-                <td class="px-6 py-5">231</td>
+                <td class="px-6 py-5 font-semibold">{{ product.Nomi }}</td>
+                <td class="px-6 py-5 text-gray-300">{{ product.Kategoriya.name }}</td>
+                <td class="px-6 py-5">${{ product.Narxi }}</td>
+                <td class="px-6 py-5">{{ product.Holati }}</td>
+                <td class="px-6 py-5">{{ product.Yili|date:"d.m.Y" }}</td>
               </tr>
-
-              <tr
-                class="border-t border-slate-800 hover:bg-slate-900 transition"
-              >
-                <td class="px-6 py-5 font-semibold">Microsoft Surface Pro</td>
-                <td class="px-6 py-5 text-gray-300">White</td>
-                <td class="px-6 py-5 text-gray-300">Laptop PC</td>
-                <td class="px-6 py-5">$1999</td>
-                <td class="px-6 py-5">423</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
+        {% else %}
+        <div class="bg-gray-100 rounded-lg p-6 text-center text-gray-600">
+          Hali mahsulot qo'shmadingiz
+        </div>
+        {% endif %}
       </div>
 
       <div>
-        <h2 class="text-3xl font-bold text-gray-900 mb-5">Buyurtmam</h2>
+        <h2 class="text-3xl font-bold text-gray-900 mb-5">Mening buyurtmalarim</h2>
 
+        {% if user_orders %}
         <div
           class="overflow-hidden rounded-2xl border border-gray-200 shadow-xl"
         >
@@ -80,32 +78,44 @@
             <thead class="bg-blue-700 text-white">
               <tr>
                 <th class="px-6 py-4 font-semibold">Mahsulot nomi</th>
-                <th class="px-6 py-4 font-semibold">Holati</th>
                 <th class="px-6 py-4 font-semibold">Kategoriya</th>
                 <th class="px-6 py-4 font-semibold">Narx</th>
+                <th class="px-6 py-4 font-semibold">To'lov usuli</th>
+                <th class="px-6 py-4 font-semibold">Manzil</th>
                 <th class="px-6 py-4 font-semibold">Sana</th>
               </tr>
             </thead>
 
             <tbody class="bg-blue-950 text-white">
-              {% for product in products %}
+              {% for order in user_orders %}
               <tr class="border-t border-blue-800 hover:bg-blue-900 transition">
-                <td class="px-6 py-5 font-semibold">{{ product.Nomi }}</td>
-                <td class="px-6 py-5 text-gray-300">{{ product.Holati }}</td>
-                <td class="px-6 py-5 text-gray-300">
-                  {{ product.Kategoriya }}
-                </td>
-                <td class="px-6 py-5">${{ product.Narxi }}</td>
-                <td class="px-6 py-5">{{ product.Yili }}</td>
+                <td class="px-6 py-5 font-semibold">{{ order.product.Nomi }}</td>
+                <td class="px-6 py-5 text-gray-300">{{ order.product.Kategoriya.name }}</td>
+                <td class="px-6 py-5">${{ order.product.Narxi }}</td>
+                <td class="px-6 py-5">{{ order.payment }}</td>
+                <td class="px-6 py-5 text-gray-300">{{ order.location }}</td>
+                <td class="px-6 py-5">{{ order.date|date:"d.m.Y H:i" }}</td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
+        {% else %}
+        <div class="bg-gray-100 rounded-lg p-6 text-center text-gray-600">
+          Hali buyurtma bermadingiz
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
 {% else %}
-<p>You are not authenticated.</p>
+<div class="min-h-screen bg-white py-10 px-4 flex items-center justify-center">
+  <div class="text-center">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Siz tizimga kirmadingiz</h1>
+    <a href="{% url 'login' %}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold">
+      Kirish
+    </a>
+  </div>
+</div>
 {% endif %} {% endblock %}

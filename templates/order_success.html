@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="min-h-screen bg-gray-100 py-8 px-4 flex items-center justify-center">
+  <div class="bg-white rounded-lg p-8 shadow text-center">
+    <div class="text-6xl mb-4">✅</div>
+    <h1 class="text-3xl font-bold text-green-600 mb-8">
+      Buyurtma muvaffaqiyatli!
+    </h1>
+    <a
+      href="{% url 'home' %}"
+      class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+    >
+      Asosiy sahifaga
+    </a>
+  </div>
+</div>
+
+{% endblock %}

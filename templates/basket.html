@@ -1,0 +1,109 @@
+{% extends 'base.html' %} {% block content %}
+<div class="min-h-screen bg-gray-100 py-10 px-4">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+    {% if basket_items %}
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg p-6 shadow">
+        <h2 class="text-2xl font-semibold mb-6">
+          🛒 Savat ({{ basket_items|length }})
+        </h2>
+
+        {% for item in basket_items %}
+        <div class="flex items-center justify-between border-b pb-6 mb-6">
+          <div class="flex gap-4">
+            <img
+              src="{{ item.product.Rasmi.url }}"
+              class="w-20 h-20 rounded-lg object-cover"
+            />
+            <div>
+              <h3 class="font-medium text-gray-900">{{ item.product.Nomi }}</h3>
+              <p class="text-sm text-gray-500">
+                {{ item.product.Kategoriya.name }}
+              </p>
+              <p class="text-sm font-semibold mt-1">
+                ${{ item.product.Narxi }}
+              </p>
+              <p class="text-green-600 text-sm mt-2">✔ Mavjud</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <form
+              method="POST"
+              action="{% url 'update_basket' item.id %}"
+              class="flex items-center gap-1"
+            >
+              {% csrf_token %}
+              <input
+                type="number"
+                name="count"
+                value="{{ item.count }}"
+                min="1"
+                class="w-16 border rounded px-2 py-1 text-sm text-center"
+              />
+              <button
+                type="submit"
+                class="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+              >
+                Yangilash
+              </button>
+            </form>
+            <a
+              href="{% url 'remove_basket' item.id %}"
+              class="text-gray-400 hover:text-red-500 text-xl font-bold"
+              >×</a
+            >
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 shadow h-fit">
+      <h3 class="text-xl font-semibold mb-6">📋 O'zeti</h3>
+
+      <div class="space-y-3 mb-6">
+        {% for item in basket_items %}
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-600"
+            >{{ item.product.Nomi }} x{{ item.count }}</span
+          >
+          <span class="font-semibold">${{ item.total_price }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="border-t pt-4 mb-6">
+        <div class="flex justify-between font-semibold text-lg text-gray-900">
+          <span>Jami:</span>
+          <span class="text-indigo-600">${{ total }}</span>
+        </div>
+      </div>
+
+      <a
+        href="{% url 'buy_now' %}"
+        class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition font-semibold text-center block"
+      >
+        💳 Sotib olish
+      </a>
+      <a
+        href="{% url 'home' %}"
+        class="w-full mt-3 bg-gray-200 text-gray-900 py-3 rounded-lg hover:bg-gray-300 transition font-semibold text-center block"
+      >
+        ← Orqaga
+      </a>
+    </div>
+    {% else %}
+    <div class="lg:col-span-3 bg-white rounded-lg p-12 shadow text-center">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-4">🛒 Savat bo'sh</h2>
+      <p class="text-gray-600 mb-8">Siz hali mahsulot sotib olmadingiz</p>
+      <a
+        href="{% url 'home' %}"
+        class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+      >
+        🏠 Asosiy sahifaga qaytish
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

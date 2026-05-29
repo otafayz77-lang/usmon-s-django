@@ -24,12 +24,13 @@
             name="nomi"
             placeholder="Mahsulot nomini kiriting"
             class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
 
         <div>
           <label class="block text-gray-700 font-semibold mb-2">
-            Tavsif (Desc)
+            Tavsif
           </label>
           <input
             type="text"
@@ -46,10 +47,11 @@
           <select
             name="kategoriya"
             class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           >
             <option value="">Kategoriya tanlang</option>
             {% for category in categories %}
-            <option>{{ category.name }}</option>
+            <option value="{{ category.id }}">{{ category.name }}</option>
             {% endfor %}
           </select>
         </div>
@@ -75,23 +77,26 @@
             name="narxi"
             placeholder="Narxini kiriting"
             class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
 
-        <div>
-          <label class="block text-gray-700 font-semibold mb-2"> Yili </label>
+        <div>Yili</label>
           <input
             type="date"
             name="yili"
             class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+            class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <div>
-          <label class="block text-gray-700 font-semibold mb-2"> Rasm </label>
+        <div>Rasm</label>
           <input
             type="file"
             name="rasmi"
+            class="w-full border border-gray-300 rounded-2xl px-5 py-4 bg-white"
+            required
             class="w-full border border-gray-300 rounded-2xl px-5 py-4 bg-white"
           />
         </div>
