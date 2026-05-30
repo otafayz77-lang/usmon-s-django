@@ -1,80 +1,81 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="min-h-screen bg-gray-100 py-8 px-4">
-  <div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-lg p-8 shadow">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">💳 Sotib olish</h1>
+<div class="max-w-lg mx-auto px-4 py-10">
+  <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 sm:p-8">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Sotib olish</h1>
 
-      {% if error %}
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-        {{ error }}
-      </div>
-      {% endif %}
-
-      <form method="POST" class="space-y-6">
-        {% csrf_token %}
-
-        <!-- Joylashuv -->
-        <div>
-          <label for="location" class="block text-sm font-semibold text-gray-900 mb-2">
-            📍 Joylashuv
-          </label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            placeholder="Shahar, Ko'cha, Uy raqami"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-          />
-          <p class="text-xs text-gray-600 mt-1">Mahsulot yetkaztiriladi joylashuv</p>
-        </div>
-
-        <!-- To'lov usuli -->
-        <div>
-          <label for="payment" class="block text-sm font-semibold text-gray-900 mb-2">
-            💰 To'lov usuli
-          </label>
-          <select
-            id="payment"
-            name="payment"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-          >
-            <option value="">Tanla...</option>
-            <option value="Naqd pul">💵 Naqd pul</option>
-            <option value="Card">🏧 Card</option>
-            <option value="Bank transfer">🏦 Bank transferi</option>
-            <option value="Online">💻 Online</option>
-          </select>
-          <p class="text-xs text-gray-600 mt-1">To'lovni qaysi usul bilan qilmoqchisiz</p>
-        </div>
-
-        <!-- Savat ma'lumoti -->
-        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-          <h3 class="font-semibold text-gray-900 mb-3">📦 Savat ma'lumoti</h3>
-          <p class="text-sm text-gray-600">
-            Sizning savatdagi barcha mahsulotlar sotib olinadi va joylashuvga yetkaztiriladi.
-          </p>
-        </div>
-
-        <!-- Tugmalar -->
-        <div class="flex gap-3">
-          <button
-            type="submit"
-            class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition font-semibold"
-          >
-            ✅ Sotib olishni tasdiqlash
-          </button>
-          <a
-            href="{% url 'basket' %}"
-            class="flex-1 bg-gray-200 text-gray-900 py-3 rounded-lg hover:bg-gray-300 transition font-semibold text-center"
-          >
-            ← Savat
-          </a>
-        </div>
-      </form>
+    {% if error %}
+    <div
+      class="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg mb-5"
+    >
+      {{ error }}
     </div>
+    {% endif %}
+
+    <form method="POST" class="space-y-5">
+      {% csrf_token %}
+
+      <!-- Joylashuv -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5"
+          >Joylashuv</label
+        >
+        <input
+          type="text"
+          name="location"
+          placeholder="Shahar, Ko'cha, Uy raqami"
+          required
+          class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <p class="text-xs text-gray-400 mt-1">
+          Mahsulot shu manzilga yetkaziladi
+        </p>
+      </div>
+
+      <!-- To'lov usuli -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5"
+          >To'lov usuli</label
+        >
+        <select
+          name="payment"
+          required
+          class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">Tanlang...</option>
+          <option value="Naqd pul">Naqd pul</option>
+          <option value="Card">Karta</option>
+          <option value="Bank transfer">Bank o'tkazmasi</option>
+          <option value="Online">Online</option>
+        </select>
+      </div>
+
+      <!-- Savat xulosa -->
+      <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+        <h3 class="text-sm font-semibold text-indigo-800 mb-1">
+          Savat ma'lumoti
+        </h3>
+        <p class="text-xs text-indigo-600">
+          Savatdagi barcha mahsulotlar ko'rsatilgan manzilga yetkaziladi.
+        </p>
+      </div>
+
+      <!-- Tugmalar -->
+      <div class="flex gap-3 pt-1">
+        <a
+          href="{% url 'basket' %}"
+          class="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl hover:bg-gray-200 active:scale-95 transition font-semibold text-sm text-center"
+        >
+          Orqaga
+        </a>
+        <button
+          type="submit"
+          class="flex-1 bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 active:scale-95 transition font-semibold text-sm"
+        >
+          Tasdiqlash
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
