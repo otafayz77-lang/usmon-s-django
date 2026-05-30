@@ -1,7 +1,6 @@
 """
 Django settings for config project.
 """
-
 import os
 from pathlib import Path
 
@@ -9,11 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # 🔐 SECURITY
-SECRET_KEY = 'django-insecure-z(pjk**0-x4y5^sxqu3$5to4d=m9ml%2hpbqmr__ir=+cdb!r4'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-z(pjk**0-x4y5^sxqu3$5to4d=m9ml%2hpbqmr__ir=+cdb!r4')
 
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# Render uchun to‘g‘ri sozlash
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
@@ -73,7 +71,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# 🗄 DATABASE (Render uchun SQLite vaqtincha)
+# 🗄 DATABASE
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -100,8 +98,7 @@ USE_TZ = True
 
 # 📁 STATIC FILES
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
